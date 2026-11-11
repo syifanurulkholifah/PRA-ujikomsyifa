@@ -47,14 +47,11 @@
                 Masuk
             </button>
         </form>
-<<<<<<< HEAD
 
         <p class="text-center text-sm text-gray-600 mt-4">
             Belum punya akun?
             <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Daftar</a>
         </p>
-=======
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
     </div>
 
 </body>

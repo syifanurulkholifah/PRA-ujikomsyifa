@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-=======
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
 
 class AuthController extends Controller
 {
@@ -49,7 +46,6 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-<<<<<<< HEAD
     // Menampilkan Form Registrasi
     public function showRegisterForm()
     {
@@ -65,19 +61,19 @@ class AuthController extends Controller
             'password' => ['required', 'min:6', 'confirmed'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
             'role'     => 'peminjam',
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login.');
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('peminjam.katalog')->with('success', 'Registrasi berhasil');
     }
-
-
-=======
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
+    
     // Proses Logout
     public function logout(Request $request)
     {

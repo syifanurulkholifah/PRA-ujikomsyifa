@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
 use App\Http\Controllers\Controller;
 use App\Models\Alat;
 use App\Models\Kategori;
-=======
-use App\Models\Alat;
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
 use App\Models\Peminjaman;
 use App\Models\DetailPinjam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-<<<<<<< HEAD
 use Carbon\Carbon;
 
 class PeminjamController extends Controller
@@ -51,28 +46,10 @@ class PeminjamController extends Controller
             'jumlah.*'          => 'required|integer|min:1',
         ], [
             'alat_id.required' => 'Pilih minimal 1 alat yang mau dipinjam.',
-=======
-
-class PeminjamController extends Controller
-{
-    public function katalogAlat()
-    {
-        $alats = Alat::with('kategori')->where('stok', '>', 0)->get();
-        return view('peminjam.katalog', compact('alats'));
-    }
-
-    public function ajukanPeminjaman(Request $request)
-    {
-        $request->validate([
-            'tgl_pengembalian' => 'required|date|after:today',
-            'alat_id' => 'required|array',
-            'jumlah' => 'required|array',
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
         ]);
 
         DB::beginTransaction();
         try {
-<<<<<<< HEAD
             // Cek stok cukup untuk semua alat yang dipilih SEBELUM nyimpen apapun
             foreach ($validated['alat_id'] as $index => $alatId) {
                 $alat = Alat::findOrFail($alatId);
@@ -97,25 +74,10 @@ class PeminjamController extends Controller
                     'peminjaman_id' => $peminjaman->id,
                     'alat_id'       => $alatId,
                     'jumlah'        => $validated['jumlah'][$index],
-=======
-            $peminjaman = Peminjaman::create([
-                'user_id' => auth()->id(),
-                'tgl_pinjam' => now(),
-                'tgl_kembali_plan' => $request->tgl_kembali_plan,
-                'status' => 'diajukan',
-            ]);
-
-            foreach ($request->alat_id as $index => $alatId) {
-                DetailPinjam::create([
-                    'peminjaman_id' => $peminjaman->id,
-                    'alat_id' => $alatId,
-                    'jumlah' => $request->jumlah($index),
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
                 ]);
             }
 
             DB::commit();
-<<<<<<< HEAD
 
             return redirect()->route('peminjam.riwayat')
                 ->with('success', 'Pengajuan peminjaman berhasil dikirim, menunggu persetujuan petugas.');
@@ -128,15 +90,6 @@ class PeminjamController extends Controller
     /**
      * Halaman Riwayat & Pengembalian Alat
      */
-=======
-            return redirect()->route('peminjam.riwayat')->with('success', 'Pengajuan peminjaman berhasil dikirim.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->with('error', 'Gagal mengajukan peminjaman: ' . $e->getMessage());
-        }
-    }
-
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
     public function riwayatPeminjaman()
     {
         $peminjamans = Peminjaman::with('detailPinjams.alat')
@@ -146,7 +99,6 @@ class PeminjamController extends Controller
 
         return view('peminjam.riwayat', compact('peminjamans'));
     }
-<<<<<<< HEAD
 
     /**
      * Peminjam menekan tombol "Ajukan Pengembalian".
@@ -169,6 +121,3 @@ class PeminjamController extends Controller
         return back()->with('success', 'Pengajuan pengembalian terkirim, silakan tunggu diproses oleh petugas.');
     }
 }
-=======
-}
->>>>>>> a8f618b60c4e0af3f4ac198cd2f408b3cc755786
